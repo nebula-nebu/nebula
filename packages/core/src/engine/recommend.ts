@@ -40,6 +40,13 @@ export function computeConfidence(components: Omit<Confidence, "level">): Confid
     components.policy_clarity *
     components.execution_readiness;
 
-  const level = overall >= 0.75 ? "high" : overall >= 0.5 ? "medium" : "low";
+  let level: Confidence["level"];
+  if (overall >= 0.75) {
+    level = "high";
+  } else if (overall >= 0.5) {
+    level = "medium";
+  } else {
+    level = "low";
+  }
   return { level, ...components };
 }
