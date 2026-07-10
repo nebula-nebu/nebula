@@ -7,11 +7,7 @@
  */
 
 export type Capability =
-  | "yield.products"
-  | "yield.history"
-  | "market.price"
-  | "market.pnl"
-  | "security.token-scan";
+  "yield.products" | "yield.history" | "market.price" | "market.pnl" | "security.token-scan";
 
 export interface NebulaPlugin {
   readonly name: string;
