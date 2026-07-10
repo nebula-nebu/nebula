@@ -1,0 +1,36 @@
+# internal docs & planning
+docs/
+
+# agent tooling (local only)
+.agents/
+.claude/
+skills-lock.json
+
+# dependencies
+node_modules/
+.pnpm-store/
+
+# builds
+dist/
+build/
+.next/
+out/
+*.tsbuildinfo
+
+# environment & secrets
+.env
+.env.*
+!.env.example
+
+# logs & caches
+*.log
+.cache/
+.turbo/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# editors
+.vscode/
+.idea/
