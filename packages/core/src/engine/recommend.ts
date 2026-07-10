@@ -1,4 +1,9 @@
-import type { Confidence, DerivedPolicy, GoalFeasibility, Recommendation } from "@nebula/shared";
+import type {
+  Confidence,
+  DerivedPolicy,
+  GoalFeasibility,
+  Recommendation,
+} from "../contract/index.js";
 
 export interface RecommendationInput {
   policies: DerivedPolicy[];

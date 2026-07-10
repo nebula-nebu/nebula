@@ -1,4 +1,4 @@
-import type { DerivedPolicy } from "@nebula/shared";
+import type { DerivedPolicy } from "../contract/index.js";
 
 interface PolicyRule {
   /** Case-insensitive phrases that signal this intent in plain language. */
