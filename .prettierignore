@@ -1,0 +1,9 @@
+docs/
+.agents/
+node_modules/
+dist/
+build/
+.next/
+out/
+pnpm-lock.yaml
+skills-lock.json
