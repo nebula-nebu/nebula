@@ -1,7 +1,11 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
-import { DecisionRequestSchema } from "@nebula/shared";
-import { computeConfidence, computeRecommendation, derivePolicies } from "@nebula/engine";
+import {
+  DecisionRequestSchema,
+  computeConfidence,
+  computeRecommendation,
+  derivePolicies,
+} from "@nebula/core";
 
 const app = new Hono();
 
