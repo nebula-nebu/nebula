@@ -17,8 +17,8 @@ export function analyzeSeries(points: SeriesPoint[]): SeriesStats | null {
     if (point.value > max) max = point.value;
   }
 
-  const first = points[0]!.value;
-  const last = points[points.length - 1]!.value;
+  const first = points.at(0)!.value;
+  const last = points.at(-1)!.value;
   const changePct = first === 0 ? 0 : (last - first) / first;
 
   return { min, max, changePct };
