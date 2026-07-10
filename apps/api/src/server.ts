@@ -2,14 +2,23 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import {
   DecisionRequestSchema,
+  PluginRegistry,
   computeConfidence,
   computeRecommendation,
   derivePolicies,
 } from "@nebula/core";
+import { registerOkxPlugins } from "@nebula/plugin-okx";
 
+const registry = registerOkxPlugins(new PluginRegistry());
 const app = new Hono();
 
-app.get("/health", (c) => c.json({ ok: true, service: "nebula-api" }));
+app.get("/health", (c) =>
+  c.json({
+    ok: true,
+    service: "nebula-api",
+    plugins: registry.list().map((p) => ({ name: p.name, capabilities: p.capabilities })),
+  }),
+);
 
 app.post("/decide", async (c) => {
   const body = await c.req.json().catch(() => null);
