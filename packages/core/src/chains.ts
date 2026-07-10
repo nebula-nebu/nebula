@@ -17,6 +17,14 @@ const CHAIN_NAMES: Record<string, string> = {
   "534352": "scroll",
 };
 
+const CHAIN_INDEXES: Record<string, string> = Object.fromEntries(
+  Object.entries(CHAIN_NAMES).map(([index, name]) => [name, index]),
+);
+
 export function chainName(chainIndex: string): string {
   return CHAIN_NAMES[chainIndex] ?? chainIndex;
+}
+
+export function chainIndex(name: string): string {
+  return CHAIN_INDEXES[name.toLowerCase()] ?? name;
 }

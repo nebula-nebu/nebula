@@ -7,7 +7,12 @@
  */
 
 export type Capability =
-  "yield.products" | "yield.history" | "market.price" | "market.pnl" | "security.token-scan";
+  | "yield.products"
+  | "yield.history"
+  | "market.price"
+  | "market.pnl"
+  | "portfolio.balances"
+  | "security.token-scan";
 
 export interface NebulaPlugin {
   readonly name: string;
@@ -53,6 +58,21 @@ export interface TokenPnl {
 export interface MarketDataProvider extends NebulaPlugin {
   price(token: string, chain: string): Promise<number>;
   tokenPnl(address: string, token: string, chain: string): Promise<TokenPnl | null>;
+}
+
+/* ── Portfolio balances ────────────────────────────────────── */
+
+export interface PortfolioBalance {
+  token: string;
+  amount: string;
+  /** Canonical chain name, e.g. "ethereum". */
+  chain: string;
+  tokenAddress?: string;
+  valueUsd?: number;
+}
+
+export interface BalanceProvider extends NebulaPlugin {
+  balances(address: string, chains?: string[]): Promise<PortfolioBalance[]>;
 }
 
 /* ── Security ──────────────────────────────────────────────── */

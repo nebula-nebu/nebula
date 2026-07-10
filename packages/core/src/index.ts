@@ -13,5 +13,5 @@ export { analyzeSeries, isApyStable, isTvlCollapsing } from "./engine/analyze.js
 export type { ProductAnalysis, SeriesStats } from "./engine/analyze.js";
 
 // Shared helpers
-export { chainName } from "./chains.js";
+export { chainName, chainIndex } from "./chains.js";
 export { formatPercent, formatTvl } from "./format.js";
