@@ -1,8 +1,8 @@
 {
-  "name": "@nebula/shared",
+  "name": "@nebula/core",
   "version": "0.1.0",
   "private": true,
-  "description": "Decision contract — types and schemas shared across the Nebula stack",
+  "description": "Nebula core — decision contract, engine kernel, and plugin interface",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
