@@ -1,0 +1,22 @@
+{
+  "name": "nebula",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Nebula — your AI financial decision engine",
+  "license": "MIT",
+  "packageManager": "pnpm@10.20.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "pnpm -r build",
+    "dev": "pnpm -r --parallel dev",
+    "typecheck": "pnpm -r typecheck",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^3.6.0",
+    "typescript": "^5.7.0"
+  }
+}
