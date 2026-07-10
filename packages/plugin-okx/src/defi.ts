@@ -1,5 +1,5 @@
 import type { Capability, SeriesPoint, YieldDataProvider, YieldProduct } from "@nebula/core";
-import { OnchainosClient } from "./client.js";
+import { OnchainosClient, type CommandRunner } from "./client.js";
 
 interface RawProduct {
   investmentId: number | string;
@@ -24,7 +24,7 @@ export class OkxDefiProvider implements YieldDataProvider {
   readonly name = "okx-defi";
   readonly capabilities: readonly Capability[] = ["yield.products", "yield.history"];
 
-  constructor(private readonly client = new OnchainosClient()) {}
+  constructor(private readonly client: CommandRunner = new OnchainosClient()) {}
 
   async searchProducts(query: {
     token: string;

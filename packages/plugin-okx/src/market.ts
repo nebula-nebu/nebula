@@ -1,5 +1,5 @@
 import type { Capability, MarketDataProvider, TokenPnl } from "@nebula/core";
-import { OnchainosClient } from "./client.js";
+import { OnchainosClient, type CommandRunner } from "./client.js";
 
 interface RawPrice {
   price?: string;
@@ -15,7 +15,7 @@ export class OkxMarketProvider implements MarketDataProvider {
   readonly name = "okx-market";
   readonly capabilities: readonly Capability[] = ["market.price", "market.pnl"];
 
-  constructor(private readonly client = new OnchainosClient()) {}
+  constructor(private readonly client: CommandRunner = new OnchainosClient()) {}
 
   async price(token: string, chain: string): Promise<number> {
     const data = await this.client.run<RawPrice>([

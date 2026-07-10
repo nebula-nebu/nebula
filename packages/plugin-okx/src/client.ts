@@ -3,6 +3,11 @@ import { promisify } from "node:util";
 
 const execFileAsync = promisify(execFile);
 
+/** Anything that can run an Onchain OS command and return its data payload. */
+export interface CommandRunner {
+  run<T>(args: string[]): Promise<T>;
+}
+
 export interface OnchainosClientOptions {
   /** Path to the onchainos binary. Defaults to "onchainos" on PATH. */
   binary?: string;
@@ -25,7 +30,7 @@ export class OnchainosError extends Error {
  * Every command returns `{ ok, data }` JSON; this client runs the command,
  * parses the envelope, and returns `data` — nothing more.
  */
-export class OnchainosClient {
+export class OnchainosClient implements CommandRunner {
   private readonly binary: string;
   private readonly timeoutMs: number;
 
