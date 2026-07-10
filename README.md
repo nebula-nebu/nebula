@@ -39,11 +39,11 @@ Nebula never holds your funds and never touches your wallet. It decides; your ag
 
 ## Monorepo
 
-| Path              | Description                                                              |
-| ----------------- | ------------------------------------------------------------------------ |
-| `packages/shared` | Decision contract — types and schemas shared across the stack            |
-| `packages/engine` | The decision engine — policy derivation, market data, decision synthesis |
-| `apps/api`        | Decision API — serves the engine to AI agents                            |
+| Path                  | Description                                                          |
+| --------------------- | -------------------------------------------------------------------- |
+| `packages/core`       | Decision contract, engine kernel, and the plugin interface           |
+| `packages/plugin-okx` | OKX Onchain OS data plugin — yields, market data, and security scans |
+| `apps/api`            | Decision API — serves the engine to AI agents                        |
 
 ## Getting started
 
