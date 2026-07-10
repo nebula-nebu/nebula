@@ -1,11 +1,5 @@
 import { Hono } from "hono";
-import {
-  DecisionRequestSchema,
-  PluginRegistry,
-  computeConfidence,
-  computeRecommendation,
-  derivePolicies,
-} from "@nebula/core";
+import { DecisionRequestSchema, PluginRegistry, decide } from "@nebula/core";
 
 export function createApp(registry: PluginRegistry): Hono {
   const app = new Hono();
@@ -25,34 +19,8 @@ export function createApp(registry: PluginRegistry): Hono {
       return c.json({ ok: false, error: parsed.error.flatten() }, 400);
     }
 
-    const request = parsed.data;
-    const { policies, unmatched } = derivePolicies(request.preferences);
-
-    const confidence = computeConfidence({
-      data_completeness: 1,
-      data_freshness: 1,
-      policy_clarity: unmatched.length === 0 ? 1 : 0.7,
-      execution_readiness: 1,
-    });
-
-    const recommendation = computeRecommendation({
-      policies,
-      feasibility: { achievable: true, alternatives: [] },
-      hardViolations: [],
-      cautionFlags: unmatched.map((phrase) => `unrecognized preference: "${phrase}"`),
-      confidence,
-    });
-
-    // Market data integration and decision synthesis land here next.
-    return c.json({
-      ok: true,
-      data: {
-        goal: request.goal,
-        derived_policies: policies,
-        recommendation,
-        confidence,
-      },
-    });
+    const decision = await decide(parsed.data, registry);
+    return c.json({ ok: true, data: decision });
   });
 
   return app;
