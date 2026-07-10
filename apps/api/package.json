@@ -13,8 +13,7 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.13.0",
-    "@nebula/engine": "workspace:*",
-    "@nebula/shared": "workspace:*",
+    "@nebula/core": "workspace:*",
     "hono": "^4.6.0"
   },
   "devDependencies": {
