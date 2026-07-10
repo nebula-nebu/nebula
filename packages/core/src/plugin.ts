@@ -72,7 +72,7 @@ export interface SecurityProvider extends NebulaPlugin {
 /* ── Registry ──────────────────────────────────────────────── */
 
 export class PluginRegistry {
-  private plugins: NebulaPlugin[] = [];
+  private readonly plugins: NebulaPlugin[] = [];
 
   register(plugin: NebulaPlugin): this {
     this.plugins.push(plugin);
