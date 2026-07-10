@@ -1,5 +1,5 @@
 import type { Capability, SecurityProvider, TokenRiskReport } from "@nebula/core";
-import { OnchainosClient } from "./client.js";
+import { OnchainosClient, type CommandRunner } from "./client.js";
 
 type RawScanEntry = {
   tokenAddress: string;
@@ -12,7 +12,7 @@ export class OkxSecurityProvider implements SecurityProvider {
   readonly name = "okx-security";
   readonly capabilities: readonly Capability[] = ["security.token-scan"];
 
-  constructor(private readonly client = new OnchainosClient()) {}
+  constructor(private readonly client: CommandRunner = new OnchainosClient()) {}
 
   async scanTokens(tokens: { chainId: string; address: string }[]): Promise<TokenRiskReport[]> {
     if (tokens.length === 0) return [];
