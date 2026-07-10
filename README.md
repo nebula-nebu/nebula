@@ -4,12 +4,12 @@
 
 Today's AI can execute transactions. Nebula decides whether they should happen at all.
 
-Tell Nebula your financial goal in plain English, and it returns a transparent, accountable financial decision — a clear recommendation with reasoning, policy compliance, goal feasibility, and a ready-to-execute plan for your AI agent.
+Tell Nebula your financial goal, and it returns a transparent, accountable financial decision — a clear recommendation with reasoning, policy compliance, goal feasibility, and a ready-to-execute plan for your AI agent.
 
 ## How it works
 
 ```
-Your goal, in plain English
+Your goal, in your own words
         │
         ▼
 ┌─────────────────────────────────────────────┐
