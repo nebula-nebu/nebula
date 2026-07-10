@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import type { Decision, DecisionRequest } from "../contract/index.js";
-import type { PluginRegistry, YieldDataProvider } from "../plugin.js";
+import type { BalanceProvider, PluginRegistry, YieldDataProvider } from "../plugin.js";
 import {
   analyzeCandidates,
   collectProducts,
@@ -12,7 +12,7 @@ import {
   selectBest,
   type RejectedCandidate,
 } from "./candidates.js";
-import { buildContext, type DecisionContext } from "./context.js";
+import { buildContext, type DecisionContext, type PortfolioAsset } from "./context.js";
 import { buildFeasibility, buildPlan } from "./plan.js";
 import { buildHumanSummary, buildSummary, buildWhy } from "./presentation.js";
 import { computeConfidence, computeRecommendation } from "./recommend.js";
@@ -68,11 +68,32 @@ function buildConfidence(context: DecisionContext, chosen: ProductAnalysis | nul
  * option that survives the user's own policies. Deterministic end to end —
  * same request and same market data always produce the same decision.
  */
+/**
+ * When the request carries only an address, resolve its holdings through a
+ * balance provider so the user never has to enumerate their own assets.
+ */
+async function resolveAssets(
+  request: DecisionRequest,
+  registry: PluginRegistry,
+): Promise<PortfolioAsset[] | undefined> {
+  const explicit = request.portfolio.assets;
+  if (explicit && explicit.length > 0) return undefined;
+  if (!request.portfolio.address) return undefined;
+
+  const provider = registry.find<BalanceProvider>("portfolio.balances");
+  if (!provider) return undefined;
+
+  const balances = await provider
+    .balances(request.portfolio.address, request.constraints?.chains)
+    .catch(() => []);
+  return balances.map(({ token, amount, chain }) => ({ token, amount, chain }));
+}
+
 export async function decide(
   request: DecisionRequest,
   registry: PluginRegistry,
 ): Promise<Decision> {
-  const context = buildContext(request);
+  const context = buildContext(request, await resolveAssets(request, registry));
 
   const provider = registry.find<YieldDataProvider>("yield.products");
   if (!provider || context.idleStable.length === 0) {

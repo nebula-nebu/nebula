@@ -1,7 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { decide } from "../src/engine/decide.js";
 import { PluginRegistry } from "../src/plugin.js";
-import type { Capability, SeriesPoint, YieldDataProvider, YieldProduct } from "../src/plugin.js";
+import type {
+  BalanceProvider,
+  Capability,
+  SeriesPoint,
+  YieldDataProvider,
+  YieldProduct,
+} from "../src/plugin.js";
 
 const PRODUCTS: YieldProduct[] = [
   // Solid, on the user's chain.
@@ -144,5 +150,26 @@ describe("decide", () => {
     const decision = await decide(REQUEST, registryWith());
     expect(decision.recommendation).toBe("dont_proceed");
     expect(decision.why.join("\n")).toContain("data provider");
+  });
+
+  it("resolves holdings from an address when a balance provider is registered", async () => {
+    const stubBalances: BalanceProvider = {
+      name: "stub-balances",
+      capabilities: ["portfolio.balances"],
+      balances: async () => [
+        { token: "USDT", amount: "500", chain: "ethereum" },
+        { token: "ETH", amount: "1", chain: "ethereum" },
+      ],
+    };
+    const registry = registryWith(new StubYieldProvider()).register(stubBalances);
+
+    const decision = await decide(
+      { ...REQUEST, portfolio: { address: "0xb4d66641bdd4e8b1d6b9adc8367a37d409f117f3" } },
+      registry,
+    );
+
+    expect(decision.recommendation).toBe("proceed");
+    expect(decision.execution_plan[0]).toMatchObject({ token: "USDT", amount: "500" });
+    expect(decision.human_summary.join("\n")).toContain("ETH will not be sold");
   });
 });
