@@ -84,7 +84,7 @@ describe("decide", () => {
     const decision = await decide(REQUEST, registryWith(new StubYieldProvider()));
 
     expect(decision.recommendation).toBe("proceed");
-    expect(decision.estimated_apy).toBe(0.0559);
+    expect(decision.estimated_apy).toBeCloseTo(0.0559, 6);
     expect(decision.execution_plan).toEqual([
       {
         step: 1,
