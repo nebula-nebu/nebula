@@ -20,9 +20,12 @@ export interface DecisionContext {
   heldVolatile: PortfolioAsset[];
 }
 
-export function buildContext(request: DecisionRequest): DecisionContext {
+export function buildContext(
+  request: DecisionRequest,
+  resolvedAssets?: PortfolioAsset[],
+): DecisionContext {
   const { policies, unmatched } = derivePolicies(request.preferences);
-  const assets = request.portfolio.assets ?? [];
+  const assets = resolvedAssets ?? request.portfolio.assets ?? [];
   return {
     policies,
     unmatched,
